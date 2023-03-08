@@ -23,5 +23,59 @@ ViewVuilder 클로저 속성을 이용해 콘텐트 뷰들을 받아서 동적�
 위 두가지를 사용해 코드의 재사용성을 높이는 하나의 예시 코드이다.
 
 ---
+## 코드
+
+**struct MyView{...}**
+
+```swift
+struct MyView<Content :View>: View  {
+    let content: () -> Content
+    init(@ViewBuilder content : @escaping () -> Content){
+        self.content = content
+    }
+    
+    var body: some View {
+        VStack {
+            Text("Title")
+                .font(.largeTitle)
+            Divider()
+            content()
+        }
+        .modifier(MyStyle())
+    }
+}
+```
+
+**struct MySytle{...}**
+
+```swift
+struct MyStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .background(Color.cyan)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+    }
+}
+```
+
+**struct ContentView{...}**
+
+```swift
+struct ContentView: View {
+    var body: some View {
+        VStack{
+            MyView {
+                Text("2")
+                Text("3")
+            }
+        }
+    }
+}
+```
+
+
+---
 ## 결과 이미지
 <img width="367" alt="스크린샷 2023-03-09 오전 2 38 43" src="https://user-images.githubusercontent.com/43426556/223788414-eefc7e26-51e2-42f6-a859-5b5e14b607e5.png">
