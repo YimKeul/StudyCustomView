@@ -7,15 +7,43 @@
 
 import SwiftUI
 
-struct ContentView: View {
+
+struct MyView<Content :View>: View  {
+    let content: () -> Content
+    init(@ViewBuilder content : @escaping () -> Content){
+        self.content = content
+    }
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text("Title")
+                .font(.largeTitle)
+            Divider()
+            content()
         }
-        .padding()
+        .modifier(MyStyle())
+    }
+}
+
+struct MyStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .background(Color.cyan)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+    }
+}
+
+
+struct ContentView: View {
+    var body: some View {
+        VStack{
+            MyView {
+                Text("2")
+                Text("3")
+            }
+        }
     }
 }
 
