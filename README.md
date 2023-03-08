@@ -5,9 +5,10 @@
 
 ### 코드 구조
 struct MyView{...} <br/>
-struct MyStyle{...}
-
+struct MyStyle{...} <br/>
 struct ContentView{...} <br/>
+
+---
 
 ### 설명
 커스텀 수정자와 커스텀 뷰를 같이 사용한 코드<br/>
